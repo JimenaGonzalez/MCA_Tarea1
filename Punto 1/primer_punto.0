@@ -1,0 +1,38 @@
+all:  comparacion_graficas.png UpwindGodunov_step_0.dat UpwindGodunov_step_1.dat UpwindGodunov_step_2.dat UpwindGodunov_step_3.dat UpwindGodunov_step_4.dat UpwindGodunov_step_5.dat shocktube.x animacion_godunov.gif
+
+UpwindGodunov_step_0.dat : shocktube.x
+			 ./shocktube.x
+UpwindGodunov_step_1.dat : shocktube.x
+			 ./shocktube.x
+UpwindGodunov_step_2.dat : shocktube.x
+			 ./shocktube.x
+UpwindGodunov_step_3.dat : shocktube.x
+			 ./shocktube.x
+UpwindGodunov_step_4.dat : shocktube.x
+			 ./shocktube.x
+UpwindGodunov_step_5.dat : shocktube.x
+			 ./shocktube.x
+
+shocktube.x : shocktube.c riemann.c steps.c 
+	      gcc shocktube.c riemann.c steps.c -lm -o shocktube.x
+
+comparacion_graficas.png : solucion.py UpwindGodunov_step_0.dat UpwindGodunov_step_1.dat UpwindGodunov_step_2.dat UpwindGodunov_step_3.dat UpwindGodunov_step_4.dat UpwindGodunov_step_5.dat
+			 python solucion.py
+
+Tiempo_0_Godunov.png : solucion.py
+		     python solucion.py
+
+Tiempo_1_Godunov.png : solucion.py
+		     python solucion.py
+
+Tiempo_2_Godunov.png : solucion.py
+		     python solucion.py
+
+Tiempo_3_Godunov.png : solucion.py
+		     python solucion.py
+
+Tiempo_4_Godunov.png : solucion.py
+		     python solucion.py
+
+animacion_godunov.gif : Tiempo_0_Godunov.png Tiempo_1_Godunov.png Tiempo_2_Godunov.png Tiempo_3_Godunov.png Tiempo_4_Godunov.png
+		      convert -delay 10 -loop 0 Tiempo*.png animacion_Govunov.gif
